@@ -18,7 +18,7 @@ class Chain():
         
                 
         self.model = model.llm
-        self.rag = rag.langchain_retriever()
+        self.rag = rag.langchain_retriever
         self.prompt_template = ChatPromptTemplate.from_messages(
             [
                 ("system", prompt),
@@ -26,7 +26,7 @@ class Chain():
             ]
         )
         
-        question_answer_chain = create_stuff_documents_chain(model.llm, self.prompt_template)
+        self.llm_chain = create_stuff_documents_chain(model.llm, self.prompt_template)
         self.rag_chain = create_retrieval_chain(self.rag, question_answer_chain)
         
     def query(self, query):

@@ -20,9 +20,7 @@ class RAG:
     
     def store():
         self.vector_store = FAISS.from_documents(self.docs, self.encoder_model)
+        self.retriever = self.vector_store.as_retriever()
         
-    def langchain_retriever():
-        self.langchain_retriever = self.vector_store.as_retriever()
-        return self.langchain_retriever
         
     

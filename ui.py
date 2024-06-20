@@ -13,6 +13,6 @@ rag = RAG()
 rag.chunk(document='./')
 rag.store()
 
-chain = Chain(model = model.llm, rag=rag.langchain_retriever())
+chain = Chain(model = model, rag=rag)
 
-chain.invoke("Hi there")
+response = chain.query("Hi there")
