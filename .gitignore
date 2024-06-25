@@ -2,3 +2,6 @@
 *cache*
 *dist*
 *.pdf
+*pkl*
+*.faiss
+.env
