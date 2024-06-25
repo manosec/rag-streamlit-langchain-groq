@@ -13,6 +13,11 @@ from dotenv import load_dotenv
 from langchain_groq import ChatGroq
 load_dotenv()
 
+import os
+
+GROQ_API_KEY = os.getenv('GROQ_API_KEY')
+
+
 st.set_page_config(page_title="Document Genie", layout="wide")
 
 embeddings = HuggingFaceEmbeddings(model_name="intfloat/e5-base-v2")
@@ -21,12 +26,12 @@ def get_conversational_chain():
     prompt_template = """
     Answer the question as detailed as possible from the provided context, make sure to provide all the details, if the answer is not in
     provided context just say, "answer is not available in the context", don't provide the wrong answer\n\n
-    Context:\n {context}?\n
+    Content:\n {context}?\n
     Question: \n{question}\n
 
     Answer:
     """
-    model = ChatGroq(model='llama3-70b-8192')
+    model = ChatGroq(model='llama3-70b-8192', groq_api_key=GROQ_API_KEY)
     prompt = PromptTemplate(template=prompt_template, input_variables=["context", "question"])
     chain = load_qa_chain(model, chain_type="stuff", prompt=prompt)
     return chain
@@ -43,7 +48,7 @@ def get_pdf_text(pdf_docs):
     return text
 
 def get_text_chunks(text):
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=112, chunk_overlap=0)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1024, chunk_overlap=0)
     chunks = text_splitter.split_text(text)
     return chunks
 
